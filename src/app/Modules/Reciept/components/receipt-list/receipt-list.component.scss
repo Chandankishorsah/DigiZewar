@@ -1,0 +1,20 @@
+   .table-jewelry tbody tr:hover {
+      background-color: rgba(212, 175, 55, 0.05);
+      cursor: pointer;
+    }
+
+    .btn-group .btn {
+      margin-right: 2px;
+    }
+
+    .btn-group .btn:last-child {
+      margin-right: 0;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+    }
+
+    .fs-6 {
+      font-size: 1.1rem !important;
+    }

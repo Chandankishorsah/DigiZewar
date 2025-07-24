@@ -1,0 +1,173 @@
+ <div class="container mt-4">
+      <div class="fade-in-up">
+        <!-- Welcome Section -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <div class="row align-items-center">
+                <div class="col-md-8">
+                  <h1 class="gold-text mb-2">
+                    <i class="fas fa-gem me-3"></i>
+                    Welcome, {{ currentUser?.name }}!
+                  </h1>
+                  <p class="text-muted mb-0" *ngIf="currentUser?.shop">
+                    {{ currentUser?.shop?.name }} - {{ currentUser?.shop?.city }}, {{ currentUser?.shop?.state }}
+                  </p>
+                  <small class="text-muted">{{ getCurrentDate() }}</small>
+                </div>
+                <div class="col-md-4 text-md-end">
+                  <div class="shop-ornament gold-text">
+                    <i class="fas fa-crown" style="font-size: 4rem; opacity: 0.3;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-4">
+          <div class="col-lg-3 col-md-6 mb-3 slide-in-left" style="animation-delay: 0.1s;">
+            <div class="stat-card card h-100 p-4">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="text-muted mb-1">Today's Sales</h6>
+                  <h3 class="gold-text mb-0">₹{{ todaysSales | number:'1.2-2' }}</h3>
+                </div>
+                <div class="col-4 text-end">
+                  <i class="fas fa-chart-line gold-text" style="font-size: 2rem;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-3 slide-in-left" style="animation-delay: 0.2s;">
+            <div class="stat-card card h-100 p-4">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="text-muted mb-1">Total Sales</h6>
+                  <h3 class="gold-text mb-0">₹{{ totalSales | number:'1.2-2' }}</h3>
+                </div>
+                <div class="col-4 text-end">
+                  <i class="fas fa-coins gold-text" style="font-size: 2rem;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-3 slide-in-left" style="animation-delay: 0.3s;">
+            <div class="stat-card card h-100 p-4">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="text-muted mb-1">Total Receipts</h6>
+                  <h3 class="gold-text mb-0">{{ totalReceipts }}</h3>
+                </div>
+                <div class="col-4 text-end">
+                  <i class="fas fa-receipt gold-text" style="font-size: 2rem;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-3 slide-in-left" style="animation-delay: 0.4s;">
+            <div class="stat-card card h-100 p-4">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h6 class="text-muted mb-1">This Month</h6>
+                  <h3 class="text-success mb-0">+12.5%</h3>
+                </div>
+                <div class="col-4 text-end">
+                  <i class="fas fa-trending-up text-success" style="font-size: 2rem;"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <h4 class="gold-text mb-4">
+                <i class="fas fa-bolt me-2"></i>Quick Actions
+              </h4>
+              <div class="row">
+                <div class="col-lg-3 col-md-6 mb-3">
+                  <button class="btn btn-gold w-100 h-100 p-4" routerLink="/receipt/create">
+                    <i class="fas fa-plus-circle d-block mb-2" style="font-size: 2rem;"></i>
+                    <span class="fw-bold">Create New Receipt</span>
+                  </button>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                  <button class="btn btn-outline-dark w-100 h-100 p-4" routerLink="/receipt/list">
+                    <i class="fas fa-list d-block mb-2" style="font-size: 2rem;"></i>
+                    <span class="fw-bold">View All Receipts</span>
+                  </button>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                  <button class="btn btn-outline-dark w-100 h-100 p-4">
+                    <i class="fas fa-chart-bar d-block mb-2" style="font-size: 2rem;"></i>
+                    <span class="fw-bold">Sales Report</span>
+                  </button>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                  <button class="btn btn-outline-dark w-100 h-100 p-4">
+                    <i class="fas fa-cog d-block mb-2" style="font-size: 2rem;"></i>
+                    <span class="fw-bold">Shop Settings</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Receipts -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="gold-text mb-0">
+                  <i class="fas fa-history me-2"></i>Recent Receipts
+                </h4>
+                <a routerLink="/receipt/list" class="btn btn-sm btn-outline-primary">View All</a>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-jewelry table-hover">
+                  <thead>
+                    <tr>
+                      <th>Invoice #</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let receipt of recentReceipts" class="fade-in-up">
+                      <td class="fw-bold">{{ receipt.invoiceNumber }}</td>
+                      <td>
+                        <div>
+                          <strong>{{ receipt.customerName }}</strong><br>
+                          <small class="text-muted">{{ receipt.customerMobile }}</small>
+                        </div>
+                      </td>
+                      <td>{{ receipt.date | date:'dd/MM/yyyy' }}</td>
+                      <td class="fw-bold gold-text">₹{{ receipt.total | number:'1.2-2' }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/receipt/view', receipt.id]">
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-print"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

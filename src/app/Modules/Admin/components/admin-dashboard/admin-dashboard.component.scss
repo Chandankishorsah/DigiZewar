@@ -1,0 +1,42 @@
+ .admin-badge {
+      animation: pulse 2s infinite;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .activity-item {
+      border-left: 2px solid rgba(212, 175, 55, 0.2);
+      padding-left: 1rem;
+      margin-left: 1rem;
+    }
+
+    .activity-item:last-child {
+      border-left: none;
+    }
+
+    .stat-item {
+      transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: scale(1.02);
+      background: rgba(212, 175, 55, 0.1) !important;
+    }
+
+    .table-jewelry tbody tr:hover {
+      background-color: rgba(212, 175, 55, 0.05);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }

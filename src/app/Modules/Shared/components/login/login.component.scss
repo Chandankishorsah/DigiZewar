@@ -1,0 +1,62 @@
+ .login-container {
+      background: linear-gradient(135deg, var(--cream) 0%, #FFFFFF 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(circle at 25% 25%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    .card-jewelry {
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 20px 60px rgba(212, 175, 55, 0.15);
+    }
+
+    .login-icon {
+      position: relative;
+    }
+
+    .login-icon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .form-control-jewelry:focus {
+      transform: translateY(-2px);
+    }
+
+    .btn-gold:disabled {
+      opacity: 0.7;
+      transform: none;
+    }

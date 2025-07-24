@@ -1,0 +1,207 @@
+ <div class="container mt-4">
+      <div class="fade-in-up">
+        <!-- Header -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h2 class="gold-text mb-1">
+                    <i class="fas fa-plus-circle me-3"></i>Create New Receipt
+                  </h2>
+                  <p class="text-muted mb-0">Generate a new sales receipt for your customer</p>
+                </div>
+                <button class="btn btn-outline-secondary" routerLink="/dashboard">
+                  <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Receipt Form -->
+        <form [formGroup]="receiptForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <!-- Customer Information -->
+            <div class="col-lg-6 mb-4">
+              <div class="card-jewelry p-4 h-100">
+                <h5 class="gold-text mb-4">
+                  <i class="fas fa-user me-2"></i>Customer Information
+                </h5>
+                
+                <div class="mb-3">
+                  <label for="customerName" class="form-label fw-semibold">Customer Name *</label>
+                  <input 
+                    type="text" 
+                    class="form-control form-control-jewelry" 
+                    id="customerName"
+                    formControlName="customerName"
+                    placeholder="Enter customer full name"
+                    [class.is-invalid]="receiptForm.get('customerName')?.invalid && receiptForm.get('customerName')?.touched">
+                  <div class="invalid-feedback">Customer name is required.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="customerMobile" class="form-label fw-semibold">Mobile Number *</label>
+                  <input 
+                    type="tel" 
+                    class="form-control form-control-jewelry" 
+                    id="customerMobile"
+                    formControlName="customerMobile"
+                    placeholder="+91-XXXXXXXXXX"
+                    [class.is-invalid]="receiptForm.get('customerMobile')?.invalid && receiptForm.get('customerMobile')?.touched">
+                  <div class="invalid-feedback">Valid mobile number is required.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shop Information -->
+            <div class="col-lg-6 mb-4">
+              <div class="card-jewelry p-4 h-100">
+                <h5 class="gold-text mb-4">
+                  <i class="fas fa-store me-2"></i>Shop Information
+                </h5>
+                
+                <div class="shop-info" *ngIf="currentUser?.shop">
+                  <h6 class="fw-bold">{{ currentUser?.shop?.name }}</h6>
+                  <p class="text-muted mb-1">{{ currentUser?.shop?.address }}</p>
+                  <p class="text-muted mb-1">{{ currentUser?.shop?.city }}, {{ currentUser?.shop?.state }}</p>
+                  <p class="text-muted mb-1">Mobile: {{ currentUser?.shop?.mobile }}</p>
+                  <p class="text-muted mb-0" *ngIf="currentUser?.shop?.gstNumber">
+                    GST: {{ currentUser?.shop?.gstNumber }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Items Section -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card-jewelry p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <h5 class="gold-text mb-0">
+                    <i class="fas fa-gem me-2"></i>Items
+                  </h5>
+                  <button type="button" class="btn btn-gold btn-sm" (click)="addItem()">
+                    <i class="fas fa-plus me-2"></i>Add Item
+                  </button>
+                </div>
+
+                <div formArrayName="items">
+                  <div *ngFor="let item of itemsFormArray.controls; let i = index" [formGroupName]="i" 
+                       class="item-row mb-4 p-3 border rounded" style="border-color: rgba(212, 175, 55, 0.3);">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h6 class="mb-0">Item {{ i + 1 }}</h6>
+                      <button type="button" class="btn btn-sm btn-outline-danger" (click)="removeItem(i)" *ngIf="itemsFormArray.length > 1">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Item Name *</label>
+                        <input type="text" class="form-control form-control-jewelry" formControlName="itemName" 
+                               placeholder="e.g., Gold Chain, Diamond Ring">
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label fw-semibold">Description</label>
+                        <input type="text" class="form-control form-control-jewelry" formControlName="description" 
+                               placeholder="Additional details">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Weight (grams) *</label>
+                        <input type="number" step="0.01" class="form-control form-control-jewelry" 
+                               formControlName="weight" (input)="calculateItemTotal(i)" placeholder="0.00">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Price/Gram (₹) *</label>
+                        <input type="number" step="0.01" class="form-control form-control-jewelry" 
+                               formControlName="pricePerGram" (input)="calculateItemTotal(i)" placeholder="0.00">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Making Charges (₹)</label>
+                        <input type="number" step="0.01" class="form-control form-control-jewelry" 
+                               formControlName="makingCharges" (input)="calculateItemTotal(i)" placeholder="0.00">
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label fw-semibold">Item Total (₹)</label>
+                        <input type="number" step="0.01" class="form-control form-control-jewelry" 
+                               formControlName="itemTotal" readonly 
+                               style="background-color: rgba(212, 175, 55, 0.1);">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Totals Section -->
+          <div class="row mb-4">
+            <div class="col-lg-8"></div>
+            <div class="col-lg-4">
+              <div class="card-jewelry p-4">
+                <h5 class="gold-text mb-4">
+                  <i class="fas fa-calculator me-2"></i>Totals
+                </h5>
+                
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <label class="form-label fw-semibold">Subtotal (₹)</label>
+                  </div>
+                  <div class="col-6">
+                    <input type="number" step="0.01" class="form-control form-control-jewelry text-end" 
+                           formControlName="subtotal" readonly>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <label class="form-label fw-semibold">Tax (₹)</label>
+                  </div>
+                  <div class="col-6">
+                    <input type="number" step="0.01" class="form-control form-control-jewelry text-end" 
+                           formControlName="tax" (input)="calculateTotal()">
+                  </div>
+                </div>
+
+                <hr class="gold-border">
+
+                <div class="row">
+                  <div class="col-6">
+                    <label class="form-label fw-bold">Grand Total (₹)</label>
+                  </div>
+                  <div class="col-6">
+                    <input type="number" step="0.01" class="form-control form-control-jewelry text-end fw-bold" 
+                           formControlName="total" readonly 
+                           style="background-color: rgba(212, 175, 55, 0.2);">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card-jewelry p-4">
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="btn btn-outline-secondary" routerLink="/dashboard">
+                    <i class="fas fa-times me-2"></i>Cancel
+                  </button>
+                  <div>
+                    <button type="submit" class="btn btn-gold me-3" [disabled]="receiptForm.invalid || saving">
+                      <span *ngIf="saving" class="spinner-border spinner-border-sm me-2"></span>
+                      <i class="fas fa-save me-2" *ngIf="!saving"></i>
+                      {{ saving ? 'Creating...' : 'Create Receipt' }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>

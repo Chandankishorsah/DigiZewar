@@ -1,0 +1,20 @@
+ .item-row {
+      transition: all 0.3s ease;
+      background: rgba(255, 248, 220, 0.3);
+    }
+
+    .item-row:hover {
+      transform: scale(1.01);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1);
+    }
+
+    .shop-info {
+      background: rgba(212, 175, 55, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-gold);
+    }
+
+    input[readonly] {
+      cursor: not-allowed;
+    }

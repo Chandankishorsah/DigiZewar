@@ -1,0 +1,156 @@
+ <div class="container mt-4">
+      <div class="fade-in-up">
+        <!-- Header -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h2 class="gold-text mb-1">
+                    <i class="fas fa-list me-3"></i>Receipt History
+                  </h2>
+                  <p class="text-muted mb-0">View and manage all your sales receipts</p>
+                </div>
+                <div>
+                  <button class="btn btn-gold me-2" routerLink="/receipt/create">
+                    <i class="fas fa-plus me-2"></i>New Receipt
+                  </button>
+                  <button class="btn btn-outline-secondary" routerLink="/dashboard">
+                    <i class="fas fa-arrow-left me-2"></i>Dashboard
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <div class="row align-items-end">
+                <div class="col-md-3">
+                  <label class="form-label fw-semibold">Search Customer</label>
+                  <input type="text" class="form-control form-control-jewelry" 
+                         [(ngModel)]="searchTerm" (input)="filterReceipts()"
+                         placeholder="Customer name or mobile">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label fw-semibold">From Date</label>
+                  <input type="date" class="form-control form-control-jewelry" 
+                         [(ngModel)]="fromDate" (change)="filterReceipts()">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label fw-semibold">To Date</label>
+                  <input type="date" class="form-control form-control-jewelry" 
+                         [(ngModel)]="toDate" (change)="filterReceipts()">
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-outline-secondary w-100" (click)="clearFilters()">
+                    <i class="fas fa-times me-2"></i>Clear Filters
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Receipts Table -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card-jewelry p-4">
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="gold-text mb-0">
+                  <i class="fas fa-receipt me-2"></i>All Receipts ({{ filteredReceipts.length }})
+                </h5>
+                <div class="text-muted">
+                  Total Value: <strong class="gold-text">₹{{ getTotalValue() | number:'1.2-2' }}</strong>
+                </div>
+              </div>
+
+              <div class="table-responsive" *ngIf="filteredReceipts.length > 0">
+                <table class="table table-jewelry table-hover">
+                  <thead>
+                    <tr>
+                      <th>Invoice #</th>
+                      <th>Customer Details</th>
+                      <th>Items</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let receipt of filteredReceipts; trackBy: trackByReceiptId" 
+                        class="fade-in-up" style="animation-delay: 0.1s;">
+                      <td>
+                        <span class="fw-bold text-primary">{{ receipt.invoiceNumber }}</span>
+                      </td>
+                      <td>
+                        <div>
+                          <strong>{{ receipt.customerName }}</strong><br>
+                          <small class="text-muted">
+                            <i class="fas fa-phone me-1"></i>{{ receipt.customerMobile }}
+                          </small>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <span class="badge bg-light text-dark">{{ receipt.items.length }} items</span><br>
+                          <small class="text-muted">{{ getItemsSummary(receipt.items) }}</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          {{ receipt.date | date:'dd/MM/yyyy' }}<br>
+                          <small class="text-muted">{{ receipt.date | date:'shortTime' }}</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="text-end">
+                          <strong class="gold-text fs-6">₹{{ receipt.total | number:'1.2-2' }}</strong><br>
+                          <small class="text-muted">+₹{{ receipt.tax | number:'1.2-2' }} tax</small>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="btn-group" role="group">
+                          <button class="btn btn-sm btn-outline-primary" 
+                                  [routerLink]="['/receipt/view', receipt.id]"
+                                  title="View Receipt">
+                            <i class="fas fa-eye"></i>
+                          </button>
+                          <button class="btn btn-sm btn-outline-secondary" 
+                                  (click)="printReceipt(receipt.id)"
+                                  title="Print Receipt">
+                            <i class="fas fa-print"></i>
+                          </button>
+                          <button class="btn btn-sm btn-outline-success" 
+                                  (click)="downloadReceipt(receipt.id)"
+                                  title="Download PDF">
+                            <i class="fas fa-download"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Empty State -->
+              <div *ngIf="filteredReceipts.length === 0" class="text-center py-5">
+                <div class="mb-4">
+                  <i class="fas fa-receipt gold-text" style="font-size: 4rem; opacity: 0.5;"></i>
+                </div>
+                <h5 class="text-muted">No receipts found</h5>
+                <p class="text-muted">
+                  {{ receipts.length === 0 ? 'You haven\'t created any receipts yet.' : 'Try adjusting your search filters.' }}
+                </p>
+                <button class="btn btn-gold" routerLink="/receipt/create" *ngIf="receipts.length === 0">
+                  <i class="fas fa-plus me-2"></i>Create Your First Receipt
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

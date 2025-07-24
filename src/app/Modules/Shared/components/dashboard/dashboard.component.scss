@@ -1,0 +1,21 @@
+ .btn-outline-dark:hover {
+      background-color: var(--text-dark);
+      border-color: var(--text-dark);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .shop-ornament {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .table-jewelry tbody tr:hover {
+      background-color: rgba(212, 175, 55, 0.1);
+      transform: scale(1.01);
+      transition: all 0.3s ease;
+    }

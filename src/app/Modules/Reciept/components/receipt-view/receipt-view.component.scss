@@ -1,0 +1,49 @@
+ .receipt-container {
+      position: relative;
+      overflow: visible;
+    }
+
+    .receipt-container::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold), var(--primary-gold));
+      border-radius: 20px;
+      z-index: -1;
+      opacity: 0.1;
+    }
+
+    .table-jewelry {
+      font-size: 0.95rem;
+    }
+
+    .table-jewelry tbody tr:hover {
+      background-color: rgba(212, 175, 55, 0.05);
+    }
+
+    .opacity-10 {
+      opacity: 0.1;
+    }
+
+    @media print {
+      .receipt-container {
+        box-shadow: none;
+        border: 2px solid #000;
+      }
+      
+      .receipt-header {
+        background: #f8f9fa !important;
+        color: #000 !important;
+      }
+      
+      .gold-text {
+        color: #000 !important;
+      }
+      
+      .text-muted {
+        color: #666 !important;
+      }
+    }

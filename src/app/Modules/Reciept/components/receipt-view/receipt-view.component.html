@@ -1,0 +1,175 @@
+ <div class="container mt-4" *ngIf="receipt">
+      <div class="fade-in-up">
+        <!-- Action Buttons -->
+        <div class="row mb-4 no-print">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-outline-secondary" (click)="goBack()">
+                <i class="fas fa-arrow-left me-2"></i>Back
+              </button>
+              <div>
+                <button class="btn btn-outline-primary me-2" (click)="printReceipt()">
+                  <i class="fas fa-print me-2"></i>Print
+                </button>
+                <button class="btn btn-gold" (click)="downloadPDF()">
+                  <i class="fas fa-download me-2"></i>Download PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Receipt -->
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="receipt-container p-5">
+              <!-- Header -->
+              <div class="receipt-header position-relative mb-4">
+                <div class="receipt-ornament">
+                  <i class="fas fa-gem"></i>
+                </div>
+                <h2 class="mb-1">{{ receipt.shopName }}</h2>
+                <p class="mb-0 opacity-75">Sales Receipt</p>
+                <div class="mt-2">
+                  <strong>{{ receipt.invoiceNumber }}</strong>
+                </div>
+              </div>
+
+              <!-- Shop & Customer Info -->
+              <div class="row mb-4">
+                <div class="col-md-6">
+                  <h6 class="gold-text mb-2">
+                    <i class="fas fa-store me-2"></i>Shop Details
+                  </h6>
+                  <div class="border-start border-3 ps-3" style="border-color: var(--primary-gold) !important;">
+                    <p class="mb-1"><strong>Golden Jewelers</strong></p>
+                    <p class="mb-1 text-muted">123 Main Street</p>
+                    <p class="mb-1 text-muted">Patna, Bihar</p>
+                    <p class="mb-1 text-muted">+91-9876543210</p>
+                    <p class="mb-0 text-muted">GST: 10AABCU9603R1ZM</p>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h6 class="gold-text mb-2">
+                    <i class="fas fa-user me-2"></i>Customer Details
+                  </h6>
+                  <div class="border-start border-3 ps-3" style="border-color: var(--primary-gold) !important;">
+                    <p class="mb-1"><strong>{{ receipt.customerName }}</strong></p>
+                    <p class="mb-1 text-muted">{{ receipt.customerMobile }}</p>
+                    <p class="mb-0 text-muted">Date: {{ receipt.date | date:'dd/MM/yyyy, h:mm a' }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Items Table -->
+              <div class="mb-4">
+                <h6 class="gold-text mb-3">
+                  <i class="fas fa-list me-2"></i>Items Purchased
+                </h6>
+                <div class="table-responsive">
+                  <table class="table table-jewelry">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th class="text-center">Weight (g)</th>
+                        <th class="text-center">Rate (₹/g)</th>
+                        <th class="text-center">Making (₹)</th>
+                        <th class="text-end">Amount (₹)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of receipt.items; let i = index" class="slide-in-left" 
+                          [style.animation-delay]="(i * 0.1) + 's'">
+                        <td>
+                          <div>
+                            <strong>{{ item.itemName }}</strong>
+                            <div *ngIf="item.description" class="text-muted small">
+                              {{ item.description }}
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">{{ item.weight | number:'1.2-2' }}</td>
+                        <td class="text-center">₹{{ item.pricePerGram | number:'1.2-2' }}</td>
+                        <td class="text-center">₹{{ item.makingCharges | number:'1.2-2' }}</td>
+                        <td class="text-end fw-bold">₹{{ item.itemTotal | number:'1.2-2' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Totals -->
+              <div class="row justify-content-end">
+                <div class="col-md-4">
+                  <div class="card bg-light">
+                    <div class="card-body">
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span class="fw-bold">₹{{ receipt.subtotal | number:'1.2-2' }}</span>
+                      </div>
+                      <div class="d-flex justify-content-between mb-2">
+                        <span>Tax:</span>
+                        <span class="fw-bold">₹{{ receipt.tax | number:'1.2-2' }}</span>
+                      </div>
+                      <hr>
+                      <div class="d-flex justify-content-between mb-0">
+                        <span class="fw-bold">Grand Total:</span>
+                        <span class="fw-bold gold-text fs-5">₹{{ receipt.total | number:'1.2-2' }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer -->
+              <div class="text-center mt-5 pt-4 border-top">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p class="text-muted mb-2">
+                      <strong>Thank you for choosing {{ receipt.shopName }}!</strong>
+                    </p>
+                    <p class="text-muted small mb-0">
+                      For any queries, please contact us at +91-9876543210
+                    </p>
+                    <div class="mt-3">
+                      <small class="text-muted">
+                        Generated by: {{ receipt.createdBy }} | 
+                        System: स्वर्ण प्रबंधन सिस्टम
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Decorative Elements -->
+              <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                <i class="fas fa-gem gold-text" style="font-size: 6rem;"></i>
+              </div>
+              <div class="position-absolute bottom-0 start-0 p-3 opacity-10">
+                <i class="fas fa-certificate gold-text" style="font-size: 4rem;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="container mt-5" *ngIf="!receipt && !error">
+      <div class="text-center">
+        <div class="spinner-gold mx-auto mb-3"></div>
+        <p class="text-muted">Loading receipt...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="container mt-5" *ngIf="error">
+      <div class="text-center">
+        <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+        <h4 class="mt-3 text-muted">Receipt Not Found</h4>
+        <p class="text-muted">The requested receipt could not be found.</p>
+        <button class="btn btn-gold" routerLink="/receipt/list">
+          <i class="fas fa-list me-2"></i>View All Receipts
+        </button>
+      </div>
+    </div>

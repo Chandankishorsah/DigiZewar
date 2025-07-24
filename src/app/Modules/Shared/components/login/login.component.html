@@ -1,0 +1,74 @@
+ <div class="login-container">
+      <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+          <div class="col-lg-5 col-md-7">
+            <div class="card-jewelry p-5 fade-in-up">
+              <div class="text-center mb-4">
+                <div class="login-icon mb-3">
+                  <i class="fas fa-gem gold-text" style="font-size: 3rem;"></i>
+                </div>
+                <h2 class="gold-text mb-2">स्वर्ण प्रबंधन</h2>
+                <p class="text-muted">Jewelry Shop Management System</p>
+              </div>
+
+              <form [formGroup]="loginForm" (ngSubmit)="onLogin()" novalidate>
+                <div class="mb-3">
+                  <label for="email" class="form-label fw-semibold">
+                    <i class="fas fa-envelope me-2"></i>Email Address
+                  </label>
+                  <input 
+                    type="email" 
+                    class="form-control form-control-jewelry" 
+                    id="email"
+                    formControlName="email"
+                    placeholder="Enter your email"
+                    [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                  <div class="invalid-feedback" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                    Please enter a valid email address.
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <label for="password" class="form-label fw-semibold">
+                    <i class="fas fa-lock me-2"></i>Password
+                  </label>
+                  <input 
+                    type="password" 
+                    class="form-control form-control-jewelry" 
+                    id="password"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                    [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                  <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                    Password is required.
+                  </div>
+                </div>
+
+                <button 
+                  type="submit" 
+                  class="btn btn-gold w-100 mb-3"
+                  [disabled]="loginForm.invalid || loading">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                  <i class="fas fa-sign-in-alt me-2" *ngIf="!loading"></i>
+                  {{ loading ? 'Signing In...' : 'Sign In' }}
+                </button>
+
+                <div class="text-center">
+                  <small class="text-muted">
+                    Demo Credentials:<br>
+                    <strong>Shop Owner:</strong> owner&#64;shop.com / password<br>
+                    <strong>Admin:</strong> admin&#64;jewelry.com / password
+                  </small>
+                </div>
+              </form>
+
+              <div class="mt-4 text-center">
+                <small class="text-muted">
+                  Secure • Reliable • Traditional
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
