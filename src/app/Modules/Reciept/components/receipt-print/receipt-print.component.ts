@@ -1,17 +1,17 @@
+import { DatePipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Receipt } from '../../../../Models/receipt.model';
 import { ReceiptService } from '../../../Shared/services/receipt/receipt.service';
-import { DatePipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
-  selector: 'app-reciept-print',
+  selector: 'app-receipt-print',
   standalone: true,
-  imports: [NgIf,NgFor,DecimalPipe,DatePipe],
-  templateUrl: './reciept-print.component.html',
-  styleUrl: './reciept-print.component.scss'
+  imports: [NgIf,NgFor,DatePipe,DecimalPipe],
+  templateUrl: './receipt-print.component.html',
+  styleUrl: './receipt-print.component.scss'
 })
-export class RecieptPrintComponent {
+export class ReceiptPrintComponent {
  receipt: Receipt | null = null;
   error = false;
 

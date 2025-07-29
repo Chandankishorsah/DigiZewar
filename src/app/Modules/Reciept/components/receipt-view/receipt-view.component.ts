@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { Receipt } from '../../../../Models/receipt.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReceiptService } from '../../../Shared/services/receipt/receipt.service';
 import { DatePipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-receipt-view',
   standalone: true,
-  imports: [NgIf,NgFor,DecimalPipe,DatePipe],
+  imports: [NgIf,NgFor,DecimalPipe,DatePipe,RouterLink],
   templateUrl: './receipt-view.component.html',
   styleUrl: './receipt-view.component.scss'
 })

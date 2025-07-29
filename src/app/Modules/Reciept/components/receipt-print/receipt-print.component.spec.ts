@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RecieptPrintComponent } from './reciept-print.component';
+import { ReceiptPrintComponent } from './receipt-print.component';
 
-describe('RecieptPrintComponent', () => {
-  let component: RecieptPrintComponent;
-  let fixture: ComponentFixture<RecieptPrintComponent>;
+describe('ReceiptPrintComponent', () => {
+  let component: ReceiptPrintComponent;
+  let fixture: ComponentFixture<ReceiptPrintComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RecieptPrintComponent]
+      imports: [ReceiptPrintComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RecieptPrintComponent);
+    fixture = TestBed.createComponent(ReceiptPrintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
